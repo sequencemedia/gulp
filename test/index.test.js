@@ -1,60 +1,52 @@
-'use strict';
 
-var expect = require('expect');
+const chai = require('chai')
+const sinonChai = require('sinon-chai')
+const {
+  expect
+} = chai // require('chai')
 
-var gulp = require('../');
+const gulp = require('../');
 
-describe('gulp', function() {
+chai.use(sinonChai)
 
-  describe('hasOwnProperty', function() {
-    it('src', function(done) {
-      expect(gulp.hasOwnProperty('src')).toEqual(true);
-      done();
-    });
+describe('gulp', () => {
+  it('src', () => {
+    return expect(Object.prototype.hasOwnProperty.call(gulp, 'src')).to.equal(true);
+  });
 
-    it('dest', function(done) {
-      expect(gulp.hasOwnProperty('dest')).toEqual(true);
-      done();
-    });
+  it('dest', () => {
+    return expect(Object.prototype.hasOwnProperty.call(gulp, 'dest')).to.equal(true);
+  });
 
-    it('symlink', function(done) {
-      expect(gulp.hasOwnProperty('symlink')).toEqual(true);
-      done();
-    });
+  it('symlink', () => {
+    return expect(Object.prototype.hasOwnProperty.call(gulp, 'symlink')).to.equal(true);
+  });
 
-    it('watch', function(done) {
-      expect(gulp.hasOwnProperty('watch')).toEqual(true);
-      done();
-    });
+  it('watch', () => {
+    return expect(Object.prototype.hasOwnProperty.call(gulp, 'watch')).to.equal(true);
+  });
 
-    it('task', function(done) {
-      expect(gulp.hasOwnProperty('task')).toEqual(true);
-      done();
-    });
+  it('task', () => {
+    return expect(Object.prototype.hasOwnProperty.call(gulp, 'task')).to.equal(true);
+  });
 
-    it('series', function(done) {
-      expect(gulp.hasOwnProperty('series')).toEqual(true);
-      done();
-    });
+  it('series', () => {
+    return expect(Object.prototype.hasOwnProperty.call(gulp, 'series')).to.equal(true);
+  });
 
-    it('parallel', function(done) {
-      expect(gulp.hasOwnProperty('parallel')).toEqual(true);
-      done();
-    });
+  it('parallel', () => {
+    return expect(Object.prototype.hasOwnProperty.call(gulp, 'parallel')).to.equal(true);
+  });
 
-    it('tree', function(done) {
-      expect(gulp.hasOwnProperty('tree')).toEqual(true);
-      done();
-    });
+  it('tree', () => {
+    return expect(Object.prototype.hasOwnProperty.call(gulp, 'tree')).to.equal(true);
+  });
 
-    it('lastRun', function(done) {
-      expect(gulp.hasOwnProperty('lastRun')).toEqual(true);
-      done();
-    });
+  it('lastRun', () => {
+    return expect(Object.prototype.hasOwnProperty.call(gulp, 'lastRun')).to.equal(true);
+  });
 
-    it('registry', function(done) {
-      expect(gulp.hasOwnProperty('registry')).toEqual(true);
-      done();
-    });
+  it('registry', () => {
+    return expect(Object.prototype.hasOwnProperty.call(gulp, 'registry')).to.equal(true);
   });
 });

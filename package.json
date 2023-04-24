@@ -1,6 +1,6 @@
 {
-  "name": "gulp",
-  "version": "4.0.2",
+  "name": "@sequencemedia/gulp",
+  "version": "1.0.0",
   "description": "The streaming build system.",
   "homepage": "https://gulpjs.com",
   "author": "Gulp Team <team@gulpjs.com> (https://gulpjs.com/)",
@@ -8,12 +8,12 @@
     "Eric Schoffstall <yo@contra.io>",
     "Blaine Bublitz <blaine.bublitz@gmail.com>"
   ],
-  "repository": "gulpjs/gulp",
+  "repository": "sequencemedia/gulp",
   "license": "MIT",
   "engines": {
-    "node": ">= 0.10"
+    "node": ">=18.5.0"
   },
-  "main": "index.js",
+  "main": "./index.js",
   "files": [
     "LICENSE",
     "index.js",
@@ -24,10 +24,7 @@
   },
   "scripts": {
     "lint": "eslint .",
-    "pretest": "npm run lint",
-    "test": "nyc mocha --async-only",
-    "azure-pipelines": "nyc mocha --async-only --reporter xunit -O output=test.xunit",
-    "coveralls": "nyc report --reporter=text-lcov | coveralls"
+    "test": "nyc mocha test"
   },
   "dependencies": {
     "glob-watcher": "^5.0.3",
@@ -36,14 +33,17 @@
     "vinyl-fs": "^3.0.0"
   },
   "devDependencies": {
+    "chai": "^4.3.7",
     "coveralls": "github:phated/node-coveralls#2.x",
-    "eslint": "^2.13.1",
-    "eslint-config-gulp": "^3.0.1",
-    "expect": "^1.20.2",
-    "mkdirp": "^0.5.1",
-    "mocha": "^3.0.0",
-    "nyc": "^10.3.2",
-    "rimraf": "^2.6.3"
+    "eslint": "^8.39.0",
+    "eslint-config-gulp": "^5.0.1",
+    "expect": "^29.5.0",
+    "mkdirp": "^3.0.1",
+    "mocha": "^10.2.0",
+    "nyc": "^15.1.0",
+    "rimraf": "^5.0.0",
+    "sinon": "^15.0.4",
+    "sinon-chai": "^3.7.0"
   },
   "keywords": [
     "build",

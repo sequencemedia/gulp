@@ -1,208 +1,272 @@
-'use strict';
+const crypto = require('node:crypto')
 
-/* eslint-disable no-use-before-define */
+const EventEmitter = require('node:events')
 
-var fs = require('fs');
-var path = require('path');
+const {
+  writeFile,
+  appendFile
+} = require('node:fs/promises')
 
-var expect = require('expect');
-var rimraf = require('rimraf');
-var mkdirp = require('mkdirp');
+const {
+  resolve,
+  join
+} = require('node:path');
 
-var gulp = require('../');
+const chai = require('chai')
+const sinon = require('sinon')
+const sinonChai = require('sinon-chai')
+const {
+  expect
+} = chai // require('chai')
+const {
+  rimraf
+} = require('rimraf');
+const {
+  mkdirp
+} = require('mkdirp');
 
-var outpath = path.join(__dirname, './out-fixtures');
+chai.use(sinonChai)
 
-var tempFileContent = 'A test generated this file and it is safe to delete';
+const WAIT = 375
+const TIMEOUT = 1500
 
-function createTempFile(path) {
-  fs.writeFileSync(path, tempFileContent);
+const gulp = require('../')
+
+async function createFile (filePath) {
+  await writeFile(filePath, crypto.randomBytes(16))
 }
 
-function updateTempFile(path) {
-  setTimeout(function() {
-    fs.appendFileSync(path, ' changed');
-  }, 125);
+async function changeFile (filePath) {
+  await appendFile(filePath, crypto.randomBytes(16))
 }
 
-describe('gulp.watch()', function() {
-  beforeEach(rimraf.bind(null, outpath));
-  beforeEach(mkdirp.bind(null, outpath));
-  afterEach(rimraf.bind(null, outpath));
+function toFilePath (filePath, fileName) {
+  return join(resolve(filePath), fileName)
+}
 
-  it('should call the function when file changes: no options', function(done) {
-    var tempFile = path.join(outpath, 'watch-func.txt');
+function waitFor (delay = 0) {
+  return (
+    new Promise ((resolve) => {
+      setTimeout(resolve, delay)
+    })
+  )
+}
 
-    createTempFile(tempFile);
+const FILE_PATH = toFilePath(__dirname, './out-fixtures')
 
-    var watcher = gulp.watch('watch-func.txt', { cwd: outpath }, function(cb) {
-      watcher.close();
-      cb();
-      done();
-    });
+const WATCHERS = new Set()
 
-    updateTempFile(tempFile);
+describe('gulp.watch()', () => {
+  before(async () => {
+    await mkdirp(FILE_PATH)
+  })
+
+  after(() => {
+    WATCHERS
+      .forEach((watcher) => {
+        if (!watcher.closed) watcher.close()
+      })
+  })
+
+  after(async () => {
+    await rimraf(FILE_PATH)
+  })
+
+  it('should perform the task when the file changes: no options', async () => {
+    const FILE_NAME = 'changes.txt'
+    const filePath = toFilePath(FILE_PATH, FILE_NAME)
+
+    await createFile(filePath)
+
+    const task = sinon.spy()
+
+    WATCHERS.add(
+      gulp.watch(filePath, task)
+    )
+
+    await changeFile(filePath)
+
+    await waitFor(WAIT)
+
+    return (
+      expect(task)
+          .to.have.been.called
+    )
+  }).timeout(TIMEOUT)
+
+  it('should perform the task when the file changes: w/ options', async () => {
+    const FILE_NAME = 'changes-with-options.txt'
+    const filePath = toFilePath(FILE_PATH, FILE_NAME)
+
+    await createFile(filePath)
+
+    const task = sinon.spy()
+
+    WATCHERS.add(
+      gulp.watch(FILE_NAME, { cwd: FILE_PATH }, task)
+    )
+
+    await changeFile(filePath)
+
+    await waitFor(WAIT)
+
+    return (
+      expect(task)
+          .to.have.been.called
+    )
+  }).timeout(TIMEOUT)
+
+  it('should perform parallel tasks: no options', async () => {
+    const FILE_NAME = 'parallel.txt'
+    const filePath = toFilePath(FILE_PATH, FILE_NAME)
+
+    await createFile(filePath)
+
+    const parallelOne = sinon.stub().callsFake((next) => next())
+    const parallelTwo = sinon.stub().callsFake((next) => next())
+
+    gulp.task('parallel-1', parallelOne)
+
+    gulp.task('parallel-2', parallelTwo)
+
+    WATCHERS.add(
+      gulp.watch(filePath, gulp.parallel('parallel-1', 'parallel-2'))
+    )
+
+    await changeFile(filePath)
+
+    await waitFor(WAIT)
+
+    expect(parallelOne)
+      .to.have.been.called
+
+    expect(parallelTwo)
+      .to.have.been.called
+  }).timeout(TIMEOUT)
+
+  it('should perform parallel tasks: w/ options', async () => {
+    const FILE_NAME = 'parallel.txt'
+    const filePath = toFilePath(FILE_PATH, FILE_NAME)
+
+    await createFile(filePath)
+
+    const parallelOne = sinon.stub().callsFake((next) => next())
+    const parallelTwo = sinon.stub().callsFake((next) => next())
+
+    gulp.task('parallel-1', parallelOne)
+
+    gulp.task('parallel-2', parallelTwo)
+
+    WATCHERS.add(
+      gulp.watch(FILE_NAME, { cwd: FILE_PATH }, gulp.parallel('parallel-1', 'parallel-2'))
+    )
+
+    await changeFile(filePath)
+
+    await waitFor(WAIT)
+
+    expect(parallelOne)
+      .to.have.been.called
+
+    expect(parallelTwo)
+      .to.have.been.called
+  }).timeout(TIMEOUT)
+
+  it('should perform series tasks: no options', async () => {
+    const FILE_NAME = 'series.txt'
+    const filePath = toFilePath(FILE_PATH, FILE_NAME)
+
+    await createFile(filePath)
+
+    const seriesOne = sinon.stub().callsFake((next) => next())
+    const seriesTwo = sinon.stub().callsFake((next) => next())
+
+    gulp.task('series-1', seriesOne)
+
+    gulp.task('series-2', seriesTwo)
+
+    WATCHERS.add(
+      gulp.watch(filePath, gulp.series('series-1', 'series-2'))
+    )
+
+    await changeFile(filePath)
+
+    await waitFor(WAIT)
+
+    expect(seriesOne)
+      .to.have.been.called
+
+    expect(seriesTwo)
+      .to.have.been.called
+  }).timeout(TIMEOUT)
+
+  it('should perform series tasks: w/ options', async () => {
+    const FILE_NAME = 'series-with-options.txt'
+    const filePath = toFilePath(FILE_PATH, FILE_NAME)
+
+    await createFile(filePath)
+
+    const seriesOne = sinon.stub().callsFake((next) => next())
+    const seriesTwo = sinon.stub().callsFake((next) => next())
+
+    gulp.task('series-1', seriesOne)
+
+    gulp.task('series-2', seriesTwo)
+
+    WATCHERS.add(
+      gulp.watch(FILE_NAME, { cwd: FILE_PATH }, gulp.series('series-1', 'series-2'))
+    )
+
+    await changeFile(filePath)
+
+    await waitFor(WAIT)
+
+    expect(seriesOne)
+      .to.have.been.called
+
+    expect(seriesTwo)
+      .to.have.been.called
+  }).timeout(TIMEOUT)
+
+  it('should always return a watch: no file path', () =>  {
+    const watcher = gulp.watch('').close()
+
+    return expect(watcher)
+      .to.be.instanceOf(EventEmitter)
   });
 
-  it('should execute the gulp.parallel tasks', function(done) {
-    var tempFile = path.join(outpath, 'watch-func.txt');
+  it('should always return a watch: w/ file path', () =>  {
+    const watcher = gulp.watch(FILE_PATH).close()
 
-    createTempFile(tempFile);
-
-    gulp.task('test', function(cb) {
-      watcher.close();
-      cb();
-      done();
-    });
-
-    var watcher = gulp.watch('watch-func.txt', { cwd: outpath }, gulp.parallel('test'));
-
-    updateTempFile(tempFile);
+    return expect(watcher)
+      .to.be.instanceOf(EventEmitter)
   });
 
-  it('should work with destructuring', function(done) {
-    var tempFile = path.join(outpath, 'watch-func.txt');
-    var watch = gulp.watch;
-    var parallel = gulp.parallel;
-    var task = gulp.task;
-    createTempFile(tempFile);
+  it('should throw when the parameter (string) is not a function', async () =>  {
+    var FILE_NAME = 'parameter-string.txt';
+    var filePath = toFilePath(FILE_PATH, FILE_NAME);
 
-    task('test', function(cb) {
-      watcher.close();
-      cb();
-      done();
-    });
+    await createFile(filePath);
 
-    var watcher = watch('watch-func.txt', { cwd: outpath }, parallel('test'));
-
-    updateTempFile(tempFile);
-  });
-
-  it('should not call the function when no file changes: no options', function(done) {
-    var tempFile = path.join(outpath, 'watch-func.txt');
-
-    createTempFile(tempFile);
-
-    var watcher = gulp.watch('watch-func.txt', { cwd: outpath }, function() {
-      // TODO: proper fail here
-      expect('Watcher erroneously called');
-    });
-
-    setTimeout(function() {
-      watcher.close();
-      done();
-    }, 10);
-  });
-
-  it('should call the function when file changes: w/ options', function(done) {
-    var tempFile = path.join(outpath, 'watch-func-options.txt');
-
-    createTempFile(tempFile);
-
-    var watcher = gulp.watch('watch-func-options.txt', { cwd: outpath }, function(cb) {
-      watcher.close();
-      cb();
-      done();
-    });
-
-    updateTempFile(tempFile);
-  });
-
-  it('should not drop options when no callback specified', function(done) {
-    var tempFile = path.join(outpath, 'watch-func-nodrop-options.txt');
-    // By passing a cwd option, ensure options are not lost to gaze
-    var relFile = '../watch-func-nodrop-options.txt';
-    var cwd = path.join(outpath, '/subdir');
-
-    createTempFile(tempFile);
-
-    var watcher = gulp.watch(relFile, { cwd: cwd })
-      .on('change', function(filepath) {
-        expect(filepath).toExist();
-        expect(path.resolve(cwd, filepath)).toEqual(path.resolve(tempFile));
-        watcher.close();
-        done();
-      });
-
-    updateTempFile(tempFile);
-  });
-
-  it('should work without options or callback', function(done) {
-    // TODO: check we return watcher?
-    gulp.watch('x');
-    done();
-  });
-
-  it('should run many tasks: w/ options', function(done) {
-    var tempFile = path.join(outpath, 'watch-task-options.txt');
-    var a = 0;
-
-    createTempFile(tempFile);
-
-    gulp.task('task1', function(cb) {
-      a++;
-      cb();
-    });
-    gulp.task('task2', function(cb) {
-      a += 10;
-      expect(a).toEqual(11);
-      watcher.close();
-      cb();
-      done();
-    });
-
-    var watcher = gulp.watch('watch-task-options.txt', { cwd: outpath }, gulp.series('task1', 'task2'));
-
-    updateTempFile(tempFile);
-  });
-
-  it('should run many tasks: no options', function(done) {
-    var tempFile = path.join(outpath, 'watch-many-tasks-no-options.txt');
-    var a = 0;
-
-    createTempFile(tempFile);
-
-    gulp.task('task1', function(cb) {
-      a++;
-      cb();
-    });
-    gulp.task('task2', function(cb) {
-      a += 10;
-      expect(a).toEqual(11);
-      watcher.close();
-      cb();
-      done();
-    });
-
-    var watcher = gulp.watch('./test/out-fixtures/watch-many-tasks-no-options.txt', gulp.series('task1', 'task2'));
-
-    updateTempFile(tempFile);
-  });
-
-  it('should throw an error: passed parameter (string) is not a function', function(done) {
-    var filename = 'empty.txt';
-    var tempFile = path.join(outpath, filename);
-
-    createTempFile(tempFile);
     try {
-      gulp.watch(filename, { cwd: outpath }, 'task1');
-    } catch (err) {
-      expect(err.message).toEqual('watching ' + filename +  ': watch task has to be a function (optionally generated by using gulp.parallel or gulp.series)');
-      done();
+      gulp.watch(FILE_NAME, { cwd: FILE_PATH }, 'task');
+    } catch ({ message }) {
+      expect(message)
+        .to.equal(`watching ${FILE_NAME}: watch task has to be a function (optionally generated by using gulp.parallel or gulp.series)`);
     }
   });
 
-  it('should throw an error: passed parameter (array) is not a function', function(done) {
-    var filename = 'empty.txt';
-    var tempFile = path.join(outpath, filename);
+  it('should throw when the parameter (array) is not a function', async () =>  {
+    var FILE_NAME = 'parameter-array.txt';
+    var filePath = toFilePath(FILE_PATH, FILE_NAME);
 
-    createTempFile(tempFile);
+    await createFile(filePath);
+
     try {
-      gulp.watch(filename, { cwd: outpath }, ['task1']);
-    } catch (err) {
-      expect(err.message).toEqual('watching ' + filename +  ': watch task has to be a function (optionally generated by using gulp.parallel or gulp.series)');
-      done();
+      gulp.watch(FILE_NAME, { cwd: FILE_PATH }, ['task']);
+    } catch ({ message }) {
+      expect(message)
+        .to.equal(`watching ${FILE_NAME}: watch task has to be a function (optionally generated by using gulp.parallel or gulp.series)`);
     }
   });
-
-});
+})

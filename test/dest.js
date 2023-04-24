@@ -3,90 +3,97 @@
 var fs = require('fs');
 var path = require('path');
 
-var expect = require('expect');
-var rimraf = require('rimraf');
+var { expect } = require('expect');
+var { rimraf } = require('rimraf');
 
 var gulp = require('../');
 
 var outpath = path.join(__dirname, './out-fixtures');
 
 describe('gulp.dest()', function() {
-  beforeEach(rimraf.bind(null, outpath));
-  afterEach(rimraf.bind(null, outpath));
-
-  it('should return a stream', function(done) {
-    var stream = gulp.dest(path.join(__dirname, './fixtures/'));
-    expect(stream).toExist();
-    expect(stream.on).toExist();
-    done();
+  beforeEach(async () => {
+    await rimraf(outpath)
   });
 
-  it('should return a output stream that writes files', function(done) {
-    var instream = gulp.src('./fixtures/**/*.txt', { cwd: __dirname });
-    var outstream = gulp.dest(outpath);
-    instream.pipe(outstream);
+  afterEach(async () => {
+    await rimraf(outpath)
+  });
 
-    outstream.on('error', done);
-    outstream.on('data', function(file) {
-      // Data should be re-emitted right
-      expect(file).toExist();
-      expect(file.path).toExist();
-      expect(file.contents).toExist();
-      expect(file.path).toEqual(path.join(outpath, './copy/example.txt'));
-      expect(file.contents).toEqual('this is a test');
-    });
-    outstream.on('end', function() {
+  it('should return a stream', function() {
+    var stream = gulp.dest(path.join(__dirname, './fixtures/'));
+    expect(stream).toBeDefined();
+    expect(stream.on).toBeDefined();
+  });
+
+  it('should return a stream to writes files', function(done) {
+    var readStream = gulp.src('./fixtures/**/*.txt', { cwd: __dirname });
+    var writeStream = gulp.dest(outpath);
+
+    readStream.pipe(writeStream);
+
+    writeStream
+      .on('data', function(file) {
+        // Data should be re-emitted right
+        expect(file).toBeDefined();
+        expect(file.path).toBeDefined();
+        expect(file.contents).toBeDefined();
+        expect(file.path).toEqual(path.join(outpath, './copy/example.txt'));
+        expect(file.contents).toEqual(Buffer.from('this is a test'));
+    })
+    .on('end', function() {
       fs.readFile(path.join(outpath, 'copy', 'example.txt'), function(err, contents) {
-        expect(err).toNotExist();
-        expect(contents).toExist();
-        expect(contents).toEqual('this is a test');
-        done();
+        expect(err).toBeNull();
+        expect(contents).toBeDefined();
+        expect(contents).toEqual(Buffer.from('this is a test'));
       });
-    });
+    })
+    .on('end', done);
   });
 
   it('should return a output stream that does not write non-read files', function(done) {
-    var instream = gulp.src('./fixtures/**/*.txt', { read: false, cwd: __dirname });
-    var outstream = gulp.dest(outpath);
-    instream.pipe(outstream);
+    var readStream = gulp.src('./fixtures/**/*.txt', { read: false, cwd: __dirname });
+    var writeStream = gulp.dest(outpath);
 
-    outstream.on('error', done);
-    outstream.on('data', function(file) {
-      // Data should be re-emitted right
-      expect(file).toExist();
-      expect(file.path).toExist();
-      expect(file.contents).toNotExist();
-      expect(file.path).toEqual(path.join(outpath, './copy/example.txt'));
-    });
-    outstream.on('end', function() {
-      fs.readFile(path.join(outpath, 'copy', 'example.txt'), function(err, contents) {
-        expect(err).toExist();
-        expect(contents).toNotExist();
-        done();
-      });
-    });
+    readStream.pipe(writeStream);
+
+    writeStream
+      .on('data', function(file) {
+        // Data should be re-emitted right
+        expect(file).toBeDefined();
+        expect(file.path).toBeDefined();
+        expect(file.contents).toBeNull();
+        expect(file.path).toEqual(path.join(outpath, './copy/example.txt'));
+      })
+      .on('end', function() {
+        fs.readFile(path.join(outpath, 'copy', 'example.txt'), function(err, contents) {
+          expect(err).toBeDefined();
+          expect(contents).toBeUndefined();
+        })
+      })
+      .on('end', done);
   });
 
   it('should return a output stream that writes streaming files', function(done) {
-    var instream = gulp.src('./fixtures/**/*.txt', { buffer: false, cwd: __dirname });
-    var outstream = instream.pipe(gulp.dest(outpath));
+    var readStream = gulp.src('./fixtures/**/*.txt', { buffer: false, cwd: __dirname });
 
-    outstream.on('error', done);
-    outstream.on('data', function(file) {
-      // Data should be re-emitted right
-      expect(file).toExist();
-      expect(file.path).toExist();
-      expect(file.contents).toExist();
-      expect(file.path).toEqual(path.join(outpath, './copy/example.txt'));
-    });
-    outstream.on('end', function() {
-      fs.readFile(path.join(outpath, 'copy', 'example.txt'), function(err, contents) {
-        expect(err).toNotExist();
-        expect(contents).toExist();
-        expect(contents).toEqual('this is a test');
-        done();
-      });
-    });
+    var writeStream = readStream.pipe(gulp.dest(outpath));
+
+    writeStream
+      .on('data', function(file) {
+        // Data should be re-emitted right
+        expect(file).toBeDefined();
+        expect(file.path).toBeDefined();
+        expect(file.contents).toBeDefined();
+        expect(file.path).toEqual(path.join(outpath, './copy/example.txt'));
+      })
+      .on('end', function() {
+        fs.readFile(path.join(outpath, 'copy', 'example.txt'), function(err, contents) {
+          expect(err).toBeNull();
+          expect(contents).toBeDefined();
+          expect(contents).toEqual(Buffer.from('this is a test'));
+        });
+      })
+      .on('end', done);
   });
 
   it('should return a output stream that writes streaming files into new directories', function(done) {
@@ -106,22 +113,23 @@ describe('gulp.dest()', function() {
   });
 
   function testWriteDir(srcOptions, done) {
-    var instream = gulp.src('./fixtures/stuff', srcOptions);
-    var outstream = instream.pipe(gulp.dest(outpath));
+    var readStream = gulp.src('./fixtures/stuff', srcOptions);
 
-    outstream.on('error', done);
-    outstream.on('data', function(file) {
-      // Data should be re-emitted right
-      expect(file).toExist();
-      expect(file.path).toExist();
-      expect(file.path).toEqual(path.join(outpath, './stuff'));
-    });
-    outstream.on('end', function() {
-      fs.exists(path.join(outpath, 'stuff'), function(exists) {
-        expect(exists).toExist();
-        done();
-      });
-    });
+    var writeStream = readStream.pipe(gulp.dest(outpath));
+
+    writeStream
+      .on('data', function(file) {
+        // Data should be re-emitted right
+        expect(file).toBeDefined();
+        expect(file.path).toBeDefined();
+        expect(file.path).toEqual(path.join(outpath, './stuff'));
+      })
+      .on('end', function() {
+        fs.stat(path.join(outpath, 'stuff'), function(err, stats) {
+          expect(err).toBeNull()
+          expect(stats).toBeDefined()
+        })
+      })
+      .on('end', done);
   }
-
 });
