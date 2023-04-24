@@ -7,17 +7,17 @@ var watch = require('glob-watcher');
 class Gulp extends Undertaker {
   constructor () {
     super()
-  // Bind the functions for destructuring
-  this.watch = this.watch.bind(this);
-  this.task = this.task.bind(this);
-  this.series = this.series.bind(this);
-  this.parallel = this.parallel.bind(this);
-  this.registry = this.registry.bind(this);
-  this.tree = this.tree.bind(this);
-  this.lastRun = this.lastRun.bind(this);
-  this.src = this.src.bind(this);
-  this.dest = this.dest.bind(this);
-  this.symlink = this.symlink.bind(this);
+    // Bind the functions for destructuring
+    this.watch = this.watch.bind(this);
+    this.task = this.task.bind(this);
+    this.series = this.series.bind(this);
+    this.parallel = this.parallel.bind(this);
+    this.registry = this.registry.bind(this);
+    this.tree = this.tree.bind(this);
+    this.lastRun = this.lastRun.bind(this);
+    this.src = this.src.bind(this);
+    this.dest = this.dest.bind(this);
+    this.symlink = this.symlink.bind(this);
   }
 
   src = vinylFs.src;
