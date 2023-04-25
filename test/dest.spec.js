@@ -33,6 +33,26 @@ const gulp = require('..')
 
 const FILE_PATH = path.join(__dirname, './out-fixtures')
 
+function streamFilesToDirectories (options) {
+  const readStream = gulp.src('./fixtures/stuff', options)
+
+  const writeStream = readStream.pipe(gulp.dest(FILE_PATH))
+
+  return (
+    writeStream
+      .on('data', (file) => {
+        expect(file.path)
+          .to.equal(path.join(FILE_PATH, 'stuff'))
+      })
+      .on('end', async () => {
+        const stats = await stat(path.join(FILE_PATH, 'stuff'))
+
+        return expect(stats)
+          .to.be.an.instanceOf(Stats)
+      })
+  )
+}
+
 describe('gulp.dest()', () => {
   beforeEach(async () => {
     await mkdirp(FILE_PATH)
@@ -142,24 +162,4 @@ describe('gulp.dest()', () => {
         .on('end', done)
     )
   })
-
-  function streamFilesToDirectories (options) {
-    const readStream = gulp.src('./fixtures/stuff', options)
-
-    const writeStream = readStream.pipe(gulp.dest(FILE_PATH))
-
-    return (
-      writeStream
-        .on('data', (file) => {
-          expect(file.path)
-            .to.equal(path.join(FILE_PATH, 'stuff'))
-        })
-        .on('end', async () => {
-          const stats = await stat(path.join(FILE_PATH, 'stuff'))
-
-          return expect(stats)
-            .to.be.an.instanceOf(Stats)
-        })
-    )
-  }
 })

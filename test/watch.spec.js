@@ -69,6 +69,7 @@ describe('gulp.watch()', () => {
     WATCHERS
       .forEach((watcher) => {
         if (!watcher.closed) watcher.close()
+        WATCHERS.delete(watcher)
       })
   })
 
