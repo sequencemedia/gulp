@@ -2,29 +2,36 @@
   "name": "@sequencemedia/gulp",
   "version": "1.0.0",
   "description": "The streaming build system.",
-  "homepage": "https://gulpjs.com",
+  "keywords": [
+    "build",
+    "stream",
+    "system",
+    "make",
+    "tool",
+    "asset",
+    "pipeline",
+    "series",
+    "parallel",
+    "streaming"
+  ],
+  "main": "./index.js",
   "author": "Gulp Team <team@gulpjs.com> (https://gulpjs.com/)",
   "contributors": [
     "Eric Schoffstall <yo@contra.io>",
     "Blaine Bublitz <blaine.bublitz@gmail.com>"
   ],
-  "repository": "sequencemedia/gulp",
   "license": "MIT",
   "engines": {
     "node": ">=18.5.0"
   },
-  "main": "./index.js",
-  "files": [
-    "LICENSE",
-    "index.js",
-    "bin"
-  ],
-  "bin": {
-    "gulp": "./bin/gulp.js"
-  },
+  "repository": "sequencemedia/gulp",
+  "homepage": "https://gulpjs.com",
   "scripts": {
     "lint": "eslint .",
     "test": "nyc mocha test"
+  },
+  "bin": {
+    "gulp": "./bin/gulp.js"
   },
   "dependencies": {
     "glob-watcher": "^5.0.5",
@@ -50,16 +57,9 @@
     "sinon": "^15.0.4",
     "sinon-chai": "^3.7.0"
   },
-  "keywords": [
-    "build",
-    "stream",
-    "system",
-    "make",
-    "tool",
-    "asset",
-    "pipeline",
-    "series",
-    "parallel",
-    "streaming"
+  "files": [
+    "LICENSE",
+    "index.js",
+    "bin"
   ]
 }
