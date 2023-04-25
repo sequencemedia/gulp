@@ -1,14 +1,33 @@
 'use strict'
 
-const fs = require('fs')
+const {
+  EventEmitter
+} = require('node:stream')
+const {
+  Stats
+} = require('node:fs')
+
 const {
   stat,
   readFile
 } = require('node:fs/promises')
-const path = require('path')
+const path = require('node:path')
 
-const { expect } = require('expect')
-const { rimraf } = require('rimraf')
+const chai = require('chai')
+const sinonChai = require('sinon-chai')
+const {
+  expect
+} = chai // require('chai')
+
+const {
+  rimraf
+} = require('rimraf')
+
+const {
+  mkdirp
+} = require('mkdirp')
+
+chai.use(sinonChai)
 
 const gulp = require('..')
 
@@ -16,7 +35,7 @@ const FILE_PATH = path.join(__dirname, './out-fixtures')
 
 describe('gulp.dest()', () => {
   beforeEach(async () => {
-    await rimraf(FILE_PATH)
+    await mkdirp(FILE_PATH)
   })
 
   afterEach(async () => {
@@ -25,8 +44,9 @@ describe('gulp.dest()', () => {
 
   it('should return a stream', () => {
     const stream = gulp.dest(path.join(__dirname, './fixtures/'))
-    expect(stream).toBeDefined()
-    expect(stream.on).toBeDefined()
+
+    return expect(stream)
+      .to.be.an.instanceOf(EventEmitter)
   })
 
   it('should return a stream to writes files', (done) => {
@@ -37,13 +57,16 @@ describe('gulp.dest()', () => {
 
     writeStream
       .on('data', (file) => {
-        expect(file.contents).toEqual(Buffer.from('this is a test'))
-        expect(file.path).toEqual(path.join(FILE_PATH, './copy/example.txt'))
+        expect(file.contents)
+          .to.eql(Buffer.from('this is a test'))
+        expect(file.path)
+          .to.equal(path.join(FILE_PATH, './copy/example.txt'))
       })
       .on('end', async () => {
         const fileData = await readFile(path.join(FILE_PATH, 'copy', 'example.txt'))
 
-        expect(fileData).toEqual(Buffer.from('this is a test'))
+        expect(fileData)
+          .to.eql(Buffer.from('this is a test'))
       })
       .on('end', done)
   })
@@ -56,13 +79,16 @@ describe('gulp.dest()', () => {
 
     writeStream
       .on('data', (file) => {
-        expect(file.contents).toBeNull()
-        expect(file.path).toEqual(path.join(FILE_PATH, './copy/example.txt'))
+        expect(file.contents)
+          .to.be.null
+        expect(file.path)
+          .to.equal(path.join(FILE_PATH, './copy/example.txt'))
       })
       .on('end', async () => {
         const fileData = await readFile(path.join(FILE_PATH, 'copy', 'example.txt'))
 
-        expect(fileData).toBeUndefined()
+        expect(fileData)
+          .to.be.undefined
       })
       .on('end', done)
   })
@@ -74,13 +100,17 @@ describe('gulp.dest()', () => {
 
     writeStream
       .on('data', (file) => {
-        expect(file.contents).toBeDefined()
-        expect(file.path).toEqual(path.join(FILE_PATH, './copy/example.txt'))
+        expect(file.contents)
+          .to.be.an.instanceOf(EventEmitter)
+
+        expect(file.path)
+          .to.equal(path.join(FILE_PATH, './copy/example.txt'))
       })
       .on('end', async () => {
         const fileData = await readFile(path.join(FILE_PATH, 'copy', 'example.txt'))
 
-        expect(fileData).toEqual(Buffer.from('this is a test'))
+        expect(fileData)
+          .to.eql(Buffer.from('this is a test'))
       })
       .on('end', done)
   })
@@ -121,12 +151,14 @@ describe('gulp.dest()', () => {
     return (
       writeStream
         .on('data', (file) => {
-          expect(file.path).toEqual(path.join(FILE_PATH, 'stuff'))
+          expect(file.path)
+            .to.equal(path.join(FILE_PATH, 'stuff'))
         })
         .on('end', async () => {
           const stats = await stat(path.join(FILE_PATH, 'stuff'))
 
-          return expect(stats).toBeDefined()
+          return expect(stats)
+            .to.be.an.instanceOf(Stats)
         })
     )
   }

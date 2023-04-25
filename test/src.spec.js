@@ -1,28 +1,40 @@
+const {
+  EventEmitter
+} = require('node:stream')
 
-const path = require('path')
+const path = require('node:path')
 
-const { expect } = require('expect')
+const chai = require('chai')
+const sinonChai = require('sinon-chai')
+const {
+  expect
+} = chai // require('chai')
 
-const gulp = require('../')
+chai.use(sinonChai)
+
+const gulp = require('..')
 
 describe('gulp.src()', () => {
   it('should return a stream', () => {
     const stream = gulp.src('./fixtures/*.coffee', { cwd: __dirname })
 
-    expect(stream).toBeDefined()
-    expect(stream.on).toBeDefined()
+    return expect(stream)
+      .to.be.an.instanceOf(EventEmitter)
   })
 
-  it('should return a stream from a flat glob', () => {
+  it('should return a stream from a flat glob', (done) => {
     const stream = gulp.src('./fixtures/*.coffee', { cwd: __dirname })
 
-    stream.on('data', (file) => {
-      expect(file).toBeDefined()
-      expect(file.path).toBeDefined()
-      expect(file.contents).toBeDefined()
-      expect(file.path).toEqual(path.join(__dirname, './fixtures/test.coffee'))
-      expect(file.contents).toEqual(Buffer.from('this is a test'))
-    })
+    stream
+      .on('data', (file) => {
+        expect(file.path)
+          .to.equal(path.join(__dirname, './fixtures/test.coffee'))
+
+        expect(file.contents)
+          .to.eql(Buffer.from('this is a test'))
+
+        done()
+      })
   })
 
   it('should return a stream for multiple globs', (done) => {
@@ -43,8 +55,8 @@ describe('gulp.src()', () => {
         files.push(file)
       })
       .on('data', (file) => {
-        expect(file).toBeDefined()
-        expect(file.path).toBeDefined()
+        expect(file.path)
+          .to.be.a('string')
       })
       .on('end', () => {
         const [
@@ -52,9 +64,14 @@ describe('gulp.src()', () => {
           fileTwo
         ] = files
 
-        expect(files.length).toEqual(2)
-        expect(fileOne.path).toEqual(path.join(__dirname, FILE_PATH_ONE))
-        expect(fileTwo.path).toEqual(path.join(__dirname, FILE_PATH_TWO))
+        expect(files.length)
+          .to.equal(2)
+
+        expect(fileOne.path)
+          .to.equal(path.join(__dirname, FILE_PATH_ONE))
+
+        expect(fileTwo.path)
+          .to.equal(path.join(__dirname, FILE_PATH_TWO))
       })
       .on('end', done)
   })
@@ -78,16 +95,19 @@ describe('gulp.src()', () => {
         files.push(file)
       })
       .on('data', (file) => {
-        expect(file).toBeDefined()
-        expect(file.path).toBeDefined()
+        expect(file.path)
+          .to.be.a('string')
       })
       .on('end', () => {
         const [
           file
         ] = files
 
-        expect(files.length).toEqual(1)
-        expect(file.path).toEqual(EXPECTED_PATH)
+        expect(files.length)
+          .to.equal(1)
+
+        expect(file.path)
+          .to.equal(EXPECTED_PATH)
       })
       .on('end', done)
   })
@@ -96,10 +116,11 @@ describe('gulp.src()', () => {
     const stream = gulp.src('./fixtures/*.coffee', { read: false, cwd: __dirname })
 
     stream.on('data', (file) => {
-      expect(file).toBeDefined()
-      expect(file.path).toBeDefined()
-      expect(file.contents).toBeNull()
-      expect(file.path).toEqual(path.join(__dirname, './fixtures/test.coffee'))
+      expect(file.contents)
+        .to.be.null
+
+      expect(file.path)
+        .to.equal(path.join(__dirname, './fixtures/test.coffee'))
     })
   })
 
@@ -107,10 +128,11 @@ describe('gulp.src()', () => {
     const stream = gulp.src('./fixtures/*.coffee', { buffer: false, cwd: __dirname })
 
     stream.on('data', (file) => {
-      expect(file).toBeDefined()
-      expect(file.path).toBeDefined()
-      expect(file.contents).toBeDefined()
-      expect(file.path).toEqual(path.join(__dirname, './fixtures/test.coffee'))
+      expect(file.path)
+        .to.equal(path.join(__dirname, './fixtures/test.coffee'))
+
+      expect(file.contents)
+        .to.be.an.instanceOf(EventEmitter)
 
       let contents = ''
 
@@ -119,7 +141,8 @@ describe('gulp.src()', () => {
           contents += data
         })
         .on('end', () => {
-          expect(contents).toEqual('this is a test')
+          expect(contents)
+            .to.equal('this is a test')
         })
         .on('end', done)
     })
@@ -129,11 +152,11 @@ describe('gulp.src()', () => {
     const stream = gulp.src('./fixtures/**/*.jade', { cwd: __dirname })
 
     stream.on('data', (file) => {
-      expect(file).toBeDefined()
-      expect(file.path).toBeDefined()
-      expect(file.contents).toBeDefined()
-      expect(file.path).toEqual(path.join(__dirname, './fixtures/test/run.jade'))
-      expect(file.contents).toEqual(Buffer.from('test template'))
+      expect(file.path)
+        .to.equal(path.join(__dirname, './fixtures/test/run.jade'))
+
+      expect(file.contents)
+        .to.eql(Buffer.from('test template'))
     })
   })
 
@@ -147,7 +170,8 @@ describe('gulp.src()', () => {
         resultCount = resultCount + 1
       })
       .on('end', () => {
-        expect(resultCount).toEqual(2)
+        expect(resultCount)
+          .to.equal(2)
       })
       .on('end', done)
   })
@@ -162,14 +186,15 @@ describe('gulp.src()', () => {
         resultCount = resultCount + 1
       })
       .on('data', (file) => {
-        expect(file).toBeDefined()
-        expect(file.path).toBeDefined()
-        expect(file.contents).toBeDefined()
-        expect(file.path).toEqual(path.join(__dirname, './fixtures/test.coffee'))
-        expect(file.contents).toEqual(Buffer.from('this is a test'))
+        expect(file.path)
+          .to.equal(path.join(__dirname, './fixtures/test.coffee'))
+
+        expect(file.contents)
+          .to.eql(Buffer.from('this is a test'))
       })
       .on('end', () => {
-        expect(resultCount).toEqual(1)
+        expect(resultCount)
+          .to.equal(1)
       })
       .on('end', done)
   })

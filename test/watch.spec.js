@@ -1,6 +1,8 @@
 const crypto = require('node:crypto')
 
-const EventEmitter = require('node:events')
+const {
+  EventEmitter
+} = require('node:stream')
 
 const {
   writeFile,
@@ -18,9 +20,11 @@ const sinonChai = require('sinon-chai')
 const {
   expect
 } = chai // require('chai')
+
 const {
   rimraf
 } = require('rimraf')
+
 const {
   mkdirp
 } = require('mkdirp')
@@ -30,7 +34,7 @@ chai.use(sinonChai)
 const WAIT = 375
 const TIMEOUT = 1500
 
-const gulp = require('../')
+const gulp = require('..')
 
 async function createFile (filePath) {
   await writeFile(filePath, crypto.randomBytes(16))
