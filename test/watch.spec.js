@@ -234,14 +234,18 @@ describe('gulp.watch()', () => {
   }).timeout(TIMEOUT)
 
   it('should always return a watch: no file path', () => {
-    const watcher = gulp.watch('').close()
+    const watcher = gulp.watch('')
+
+    watcher.close()
 
     return expect(watcher)
       .to.be.instanceOf(EventEmitter)
   })
 
   it('should always return a watch: w/ file path', () => {
-    const watcher = gulp.watch(FILE_PATH).close()
+    const watcher = gulp.watch(FILE_PATH)
+
+    watcher.close()
 
     return expect(watcher)
       .to.be.instanceOf(EventEmitter)
