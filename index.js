@@ -23,11 +23,11 @@ class Gulp extends Undertaker {
   src = vinylFs.src
   dest = vinylFs.dest
   symlink = vinylFs.symlink
-  watch (glob, conf, task) {
+  watch (glob, opts, task) {
     if (
-      typeof conf === 'string' ||
+      typeof opts === 'string' ||
       typeof task === 'string' ||
-      Array.isArray(conf) ||
+      Array.isArray(opts) ||
       Array.isArray(task)
     ) {
       throw new Error(`watching ${glob}: watch task has to be ` +
@@ -35,20 +35,20 @@ class Gulp extends Undertaker {
         'or gulp.series)')
     }
 
-    if (typeof conf === 'function') {
-      task = conf
-      conf = {}
+    if (typeof opts === 'function') {
+      task = opts
+      opts = {}
     }
 
-    conf = conf || {}
+    opts = opts || {}
 
     let func
     if (typeof task === 'function') {
       func = this.parallel(task)
     }
 
-    return watch(glob, conf, func)
-  };
+    return watch(glob, opts, func)
+  }
 
   static Gulp = Gulp
 }
