@@ -33,7 +33,7 @@
     "test": "mocha test"
   },
   "bin": {
-    "gulp": "./bin/gulp.js"
+    "gulp": "./bin/gulp.cjs"
   },
   "dependencies": {
     "glob-watcher": "github:sequencemedia/glob-watcher",
