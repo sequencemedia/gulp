@@ -27,7 +27,7 @@
   "repository": "sequencemedia/gulp",
   "homepage": "https://gulpjs.com",
   "scripts": {
-    "lint": "eslint .",
+    "lint": "eslint . --ext .cjs --ext .mjs",
     "test": "mocha test"
   },
   "bin": {
@@ -58,5 +58,8 @@
     "LICENSE",
     "index.js",
     "bin"
-  ]
+  ],
+  "imports": {
+    "#gulp": "./index.mjs"
+  }
 }

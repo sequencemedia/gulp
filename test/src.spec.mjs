@@ -1,25 +1,28 @@
-const {
-  EventEmitter
-} = require('node:stream')
+import * as url from 'node:url'
 
-const path = require('node:path')
+import {
+  Stream
+} from 'node:stream'
 
-const chai = require('chai')
-const sinonChai = require('sinon-chai')
-const {
+import path from 'node:path'
+
+import chai, {
   expect
-} = chai // require('chai')
+} from 'chai'
+import sinonChai from 'sinon-chai'
+
+import gulp from '#gulp'
 
 chai.use(sinonChai)
 
-const gulp = require('..')
+const __dirname = url.fileURLToPath(new URL('.', import.meta.url))
 
 describe('gulp.src()', () => {
   it('should return a stream', () => {
     const stream = gulp.src('./fixtures/*.coffee', { cwd: __dirname })
 
     return expect(stream)
-      .to.be.an.instanceOf(EventEmitter)
+      .to.be.an.instanceOf(Stream)
   })
 
   it('should return a stream from a flat glob', (done) => {
@@ -132,7 +135,7 @@ describe('gulp.src()', () => {
         .to.equal(path.join(__dirname, './fixtures/test.coffee'))
 
       expect(file.contents)
-        .to.be.an.instanceOf(EventEmitter)
+        .to.be.an.instanceOf(Stream)
 
       let contents = ''
 

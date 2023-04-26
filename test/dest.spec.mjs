@@ -1,35 +1,38 @@
-'use strict'
+import * as url from 'node:url'
 
-const {
-  EventEmitter
-} = require('node:stream')
-const {
+import {
+  Stream
+} from 'node:stream'
+
+import {
   Stats
-} = require('node:fs')
+} from 'node:fs'
 
-const {
+import {
   stat,
   readFile
-} = require('node:fs/promises')
-const path = require('node:path')
+} from 'node:fs/promises'
 
-const chai = require('chai')
-const sinonChai = require('sinon-chai')
-const {
+import path from 'node:path'
+
+import chai, {
   expect
-} = chai // require('chai')
+} from 'chai'
+import sinonChai from 'sinon-chai'
 
-const {
+import {
   rimraf
-} = require('rimraf')
+} from 'rimraf'
 
-const {
+import {
   mkdirp
-} = require('mkdirp')
+} from 'mkdirp'
+
+import gulp from '#gulp'
 
 chai.use(sinonChai)
 
-const gulp = require('..')
+const __dirname = url.fileURLToPath(new URL('.', import.meta.url))
 
 const FILE_PATH = path.join(__dirname, './out-fixtures')
 
@@ -66,7 +69,7 @@ describe('gulp.dest()', () => {
     const stream = gulp.dest(path.join(__dirname, './fixtures/'))
 
     return expect(stream)
-      .to.be.an.instanceOf(EventEmitter)
+      .to.be.an.instanceOf(Stream)
   })
 
   it('should return a stream to writes files', (done) => {
@@ -121,7 +124,7 @@ describe('gulp.dest()', () => {
     writeStream
       .on('data', (file) => {
         expect(file.contents)
-          .to.be.an.instanceOf(EventEmitter)
+          .to.be.an.instanceOf(Stream)
 
         expect(file.path)
           .to.equal(path.join(FILE_PATH, './copy/example.txt'))

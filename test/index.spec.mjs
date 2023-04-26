@@ -1,11 +1,10 @@
 
-const chai = require('chai')
-const sinonChai = require('sinon-chai')
-const {
+import chai, {
   expect
-} = chai // require('chai')
+} from 'chai'
+import sinonChai from 'sinon-chai'
 
-const gulp = require('..')
+import gulp from '#gulp'
 
 chai.use(sinonChai)
 

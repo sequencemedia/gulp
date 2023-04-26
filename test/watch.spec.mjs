@@ -1,40 +1,43 @@
-const crypto = require('node:crypto')
+import * as url from 'node:url'
 
-const {
+import crypto from 'node:crypto'
+
+import {
   EventEmitter
-} = require('node:stream')
+} from 'node:events';
 
-const {
+import {
   writeFile,
   appendFile
-} = require('node:fs/promises')
+} from 'node:fs/promises'
 
-const {
+import {
   resolve,
   join
-} = require('node:path')
+} from 'node:path'
 
-const chai = require('chai')
-const sinon = require('sinon')
-const sinonChai = require('sinon-chai')
-const {
+import chai, {
   expect
-} = chai // require('chai')
+} from 'chai'
+import sinon from 'sinon'
+import sinonChai from 'sinon-chai'
 
-const {
+import {
   rimraf
-} = require('rimraf')
+} from 'rimraf'
 
-const {
+import {
   mkdirp
-} = require('mkdirp')
+} from 'mkdirp'
+
+import gulp from '#gulp'
 
 chai.use(sinonChai)
 
+const __dirname = url.fileURLToPath(new URL('.', import.meta.url))
+
 const WAIT = 375
 const TIMEOUT = 1500
-
-const gulp = require('..')
 
 async function createFile (filePath) {
   await writeFile(filePath, crypto.randomBytes(16))

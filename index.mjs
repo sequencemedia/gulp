@@ -1,8 +1,6 @@
-'use strict'
-
-const Undertaker = require('undertaker')
-const vinylFs = require('vinyl-fs')
-const watch = require('glob-watcher')
+import Undertaker from 'undertaker'
+import vinylFs from 'vinyl-fs'
+import watch from 'glob-watcher'
 
 class Gulp extends Undertaker {
   constructor () {
@@ -53,4 +51,4 @@ class Gulp extends Undertaker {
   static Gulp = Gulp
 }
 
-module.exports = new Gulp()
+export default new Gulp()
