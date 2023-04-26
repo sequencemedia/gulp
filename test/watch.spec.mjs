@@ -4,7 +4,7 @@ import crypto from 'node:crypto'
 
 import {
   EventEmitter
-} from 'node:events';
+} from 'node:events'
 
 import {
   writeFile,

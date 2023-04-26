@@ -14,11 +14,13 @@
     "parallel",
     "streaming"
   ],
-  "main": "./index.js",
-  "author": "Gulp Team <team@gulpjs.com> (https://gulpjs.com/)",
+  "main": "./index.mjs",
+  "type": "module",
+  "author": "Jonathan Perry for Sequence Media Limited <sequencemedia@sequencemedia.net>",
   "contributors": [
     "Eric Schoffstall <yo@contra.io>",
-    "Blaine Bublitz <blaine.bublitz@gmail.com>"
+    "Blaine Bublitz <blaine.bublitz@gmail.com>",
+    "Gulp Team <team@gulpjs.com> (https://gulpjs.com/)"
   ],
   "license": "MIT",
   "engines": {
@@ -48,6 +50,7 @@
     "eslint-plugin-import": "^2.27.5",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^6.1.1",
+    "husky": "^8.0.3",
     "mkdirp": "^3.0.1",
     "mocha": "^10.2.0",
     "rimraf": "^5.0.0",
@@ -55,9 +58,9 @@
     "sinon-chai": "^3.7.0"
   },
   "files": [
-    "LICENSE",
-    "index.js",
-    "bin"
+    "index.mjs",
+    "bin",
+    "LICENSE"
   ],
   "imports": {
     "#gulp": "./index.mjs"
