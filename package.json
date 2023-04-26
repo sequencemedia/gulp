@@ -30,6 +30,7 @@
   "homepage": "https://gulpjs.com",
   "scripts": {
     "lint": "eslint . --ext .cjs --ext .mjs",
+    "lint:fix": "npm run lint -- --fix",
     "test": "mocha test"
   },
   "bin": {
