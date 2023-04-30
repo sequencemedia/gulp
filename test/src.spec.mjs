@@ -18,14 +18,14 @@ chai.use(sinonChai)
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url))
 
 describe('gulp.src()', () => {
-  it('should return a stream', () => {
+  it('returns a stream', () => {
     const stream = gulp.src('./fixtures/*.coffee', { cwd: __dirname })
 
     return expect(stream)
       .to.be.an.instanceOf(Stream)
   })
 
-  it('should return a stream from a flat glob', (done) => {
+  it('returns a stream from a flat glob', (done) => {
     const stream = gulp.src('./fixtures/*.coffee', { cwd: __dirname })
 
     stream
@@ -40,7 +40,7 @@ describe('gulp.src()', () => {
       })
   })
 
-  it('should return a stream for multiple globs', (done) => {
+  it('returns a stream for multiple globs', (done) => {
     const FILE_PATH_ONE = './fixtures/stuff/run.dmc'
     const FILE_PATH_TWO = './fixtures/stuff/test.dmc'
 
@@ -79,7 +79,7 @@ describe('gulp.src()', () => {
       .on('end', done)
   })
 
-  it('should return a stream for multiple globs, with negation', (done) => {
+  it('returns a stream for multiple globs, with negation', (done) => {
     const EXPECTED_PATH = path.join(__dirname, './fixtures/stuff/run.dmc')
     const INCLUDED_PATH = './fixtures/stuff/*.dmc'
     const EXCLUDED_PATH = '!fixtures/stuff/test.dmc'
@@ -115,7 +115,7 @@ describe('gulp.src()', () => {
       .on('end', done)
   })
 
-  it('should return a stream with no contents when read is false', () => {
+  it('returns a stream with no contents when read is false', () => {
     const stream = gulp.src('./fixtures/*.coffee', { read: false, cwd: __dirname })
 
     stream.on('data', (file) => {
@@ -127,7 +127,7 @@ describe('gulp.src()', () => {
     })
   })
 
-  it('should return a stream with contents as stream when buffer is false', (done) => {
+  it('returns a stream with contents as stream when buffer is false', (done) => {
     const stream = gulp.src('./fixtures/*.coffee', { buffer: false, cwd: __dirname })
 
     stream.on('data', (file) => {
@@ -151,7 +151,7 @@ describe('gulp.src()', () => {
     })
   })
 
-  it('should return a stream from a deep glob', () => {
+  it('returns a stream from a deep glob', () => {
     const stream = gulp.src('./fixtures/**/*.jade', { cwd: __dirname })
 
     stream.on('data', (file) => {
@@ -163,7 +163,7 @@ describe('gulp.src()', () => {
     })
   })
 
-  it('should return a stream from a deeper glob', (done) => {
+  it('returns a stream from a deeper glob', (done) => {
     const stream = gulp.src('./fixtures/**/*.dmc', { cwd: __dirname })
 
     let resultCount = 0
@@ -179,7 +179,7 @@ describe('gulp.src()', () => {
       .on('end', done)
   })
 
-  it('should return a file stream from a flat path', (done) => {
+  it('returns a file stream from a flat path', (done) => {
     const stream = gulp.src(path.join(__dirname, './fixtures/test.coffee'))
 
     let resultCount = 0

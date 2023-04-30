@@ -65,14 +65,14 @@ describe('gulp.dest()', () => {
     await rimraf(FILE_PATH)
   })
 
-  it('should return a stream', () => {
+  it('returns a stream', () => {
     const stream = gulp.dest(path.join(__dirname, './fixtures/'))
 
     return expect(stream)
       .to.be.an.instanceOf(Stream)
   })
 
-  it('should return a stream to writes files', (done) => {
+  it('returns a stream to writes files', (done) => {
     const readStream = gulp.src('./fixtures/**/*.txt', { cwd: __dirname })
     const writeStream = gulp.dest(FILE_PATH)
 
@@ -94,7 +94,7 @@ describe('gulp.dest()', () => {
       .on('end', done)
   })
 
-  it('should return a stream that does not write non-read files', (done) => {
+  it('returns a stream that does not write non-read files', (done) => {
     const readStream = gulp.src('./fixtures/**/*.txt', { read: false, cwd: __dirname })
     const writeStream = gulp.dest(FILE_PATH)
 
@@ -116,7 +116,7 @@ describe('gulp.dest()', () => {
       .on('end', done)
   })
 
-  it('should return a stream that writes files', (done) => {
+  it('returns a stream that writes files', (done) => {
     const readStream = gulp.src('./fixtures/**/*.txt', { buffer: false, cwd: __dirname })
 
     const writeStream = readStream.pipe(gulp.dest(FILE_PATH))
@@ -138,28 +138,28 @@ describe('gulp.dest()', () => {
       .on('end', done)
   })
 
-  it('should return a stream that writes files into directories', (done) => {
+  it('returns a stream that writes files into directories', (done) => {
     return (
       streamFilesToDirectories({ cwd: __dirname })
         .on('end', done)
     )
   })
 
-  it('should return a stream that writes files into directories (buffer: false)', (done) => {
+  it('returns a stream that writes files into directories (buffer: false)', (done) => {
     return (
       streamFilesToDirectories({ buffer: false, cwd: __dirname })
         .on('end', done)
     )
   })
 
-  it('should return a stream that writes files into directories (read: false)', (done) => {
+  it('returns a stream that writes files into directories (read: false)', (done) => {
     return (
       streamFilesToDirectories({ read: false, cwd: __dirname })
         .on('end', done)
     )
   })
 
-  it('should return a stream that writes files into directories (read: false, buffer: false)', (done) => {
+  it('returns a stream that writes files into directories (read: false, buffer: false)', (done) => {
     return (
       streamFilesToDirectories({ buffer: false, read: false, cwd: __dirname })
         .on('end', done)
