@@ -1,12 +1,9 @@
 
-import chai, {
+import {
   expect
 } from 'chai'
-import sinonChai from 'sinon-chai'
 
 import gulp from '#gulp'
-
-chai.use(sinonChai)
 
 describe('gulp', () => {
   it('src', () => {

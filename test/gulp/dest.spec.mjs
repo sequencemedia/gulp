@@ -15,10 +15,9 @@ import {
 
 import path from 'node:path'
 
-import chai, {
+import {
   expect
 } from 'chai'
-import sinonChai from 'sinon-chai'
 
 import {
   rimraf
@@ -30,25 +29,23 @@ import {
 
 import gulp from '#gulp'
 
-chai.use(sinonChai)
-
-const __dirname = url.fileURLToPath(new URL('.', import.meta.url))
-
-const FILE_PATH = path.join(__dirname, './out-fixtures')
+const DIRECTORY = url.fileURLToPath(new URL('.', import.meta.url))
+const FILE_PATH = path.resolve('./test/fixtures/tmp')
 
 function streamFilesToDirectories (options) {
-  const readStream = gulp.src('./fixtures/stuff', options)
+  const readStream = gulp.src(path.resolve('./test/fixtures/text'), options)
+  const writeStream = gulp.dest(FILE_PATH)
 
-  const writeStream = readStream.pipe(gulp.dest(FILE_PATH))
+  readStream.pipe(writeStream)
 
   return (
     writeStream
       .on('data', (file) => {
         expect(file.path)
-          .to.equal(path.join(FILE_PATH, 'stuff'))
+          .to.equal(path.resolve('./test/fixtures/tmp/text'))
       })
       .on('end', async () => {
-        const stats = await stat(path.join(FILE_PATH, 'stuff'))
+        const stats = await stat(path.resolve('./test/fixtures/tmp/text'))
 
         return expect(stats)
           .to.be.an.instanceOf(Stats)
@@ -66,36 +63,37 @@ describe('gulp.dest()', () => {
   })
 
   it('returns a stream', () => {
-    const stream = gulp.dest(path.join(__dirname, './fixtures/'))
+    const stream = gulp.dest(path.resolve('./test/fixtures'))
 
     return expect(stream)
       .to.be.an.instanceOf(Stream)
   })
 
   it('returns a stream to writes files', (done) => {
-    const readStream = gulp.src('./fixtures/**/*.txt', { cwd: __dirname })
+    const readStream = gulp.src(path.resolve('./test/fixtures/**/*.txt'), { cwd: DIRECTORY })
     const writeStream = gulp.dest(FILE_PATH)
 
     readStream.pipe(writeStream)
 
     writeStream
       .on('data', (file) => {
-        expect(file.contents)
-          .to.eql(Buffer.from('this is a test'))
+        expect(file.contents.toString().trim())
+          .to.eql('MOCK FILE CONTENTS')
+
         expect(file.path)
-          .to.equal(path.join(FILE_PATH, './copy/example.txt'))
+          .to.equal(path.resolve('./test/fixtures/tmp/text/stream.txt'))
       })
       .on('end', async () => {
-        const fileData = await readFile(path.join(FILE_PATH, 'copy', 'example.txt'))
+        const fileData = await readFile(path.resolve('./test/fixtures/tmp/text/stream.txt'))
 
-        expect(fileData)
-          .to.eql(Buffer.from('this is a test'))
+        expect(fileData.toString().trim())
+          .to.eql('MOCK FILE CONTENTS')
       })
       .on('end', done)
   })
 
   it('returns a stream that does not write non-read files', (done) => {
-    const readStream = gulp.src('./fixtures/**/*.txt', { read: false, cwd: __dirname })
+    const readStream = gulp.src(path.resolve('./test/fixtures/**/*.txt'), { read: false, cwd: DIRECTORY })
     const writeStream = gulp.dest(FILE_PATH)
 
     readStream.pipe(writeStream)
@@ -104,11 +102,12 @@ describe('gulp.dest()', () => {
       .on('data', (file) => {
         expect(file.contents)
           .to.be.null
+
         expect(file.path)
-          .to.equal(path.join(FILE_PATH, './copy/example.txt'))
+          .to.equal(path.resolve('./test/fixtures/tmp/text/stream.txt'))
       })
       .on('end', async () => {
-        const fileData = await readFile(path.join(FILE_PATH, 'copy', 'example.txt'))
+        const fileData = await readFile(path.resolve('./test/fixtures/tmp/text/stream.txt'))
 
         expect(fileData)
           .to.be.undefined
@@ -117,9 +116,10 @@ describe('gulp.dest()', () => {
   })
 
   it('returns a stream that writes files', (done) => {
-    const readStream = gulp.src('./fixtures/**/*.txt', { buffer: false, cwd: __dirname })
+    const readStream = gulp.src(path.resolve('./test/fixtures/**/*.txt'), { buffer: false, cwd: DIRECTORY })
+    const writeStream = gulp.dest(FILE_PATH)
 
-    const writeStream = readStream.pipe(gulp.dest(FILE_PATH))
+    readStream.pipe(writeStream)
 
     writeStream
       .on('data', (file) => {
@@ -127,41 +127,41 @@ describe('gulp.dest()', () => {
           .to.be.an.instanceOf(Stream)
 
         expect(file.path)
-          .to.equal(path.join(FILE_PATH, './copy/example.txt'))
+          .to.equal(path.resolve('./test/fixtures/tmp/text/stream.txt'))
       })
       .on('end', async () => {
-        const fileData = await readFile(path.join(FILE_PATH, 'copy', 'example.txt'))
+        const fileData = await readFile(path.resolve('./test/fixtures/tmp/text/stream.txt'))
 
-        expect(fileData)
-          .to.eql(Buffer.from('this is a test'))
+        expect(fileData.toString().trim())
+          .to.eql('MOCK FILE CONTENTS')
       })
       .on('end', done)
   })
 
   it('returns a stream that writes files into directories', (done) => {
     return (
-      streamFilesToDirectories({ cwd: __dirname })
+      streamFilesToDirectories({ cwd: DIRECTORY })
         .on('end', done)
     )
   })
 
   it('returns a stream that writes files into directories (buffer: false)', (done) => {
     return (
-      streamFilesToDirectories({ buffer: false, cwd: __dirname })
+      streamFilesToDirectories({ buffer: false, cwd: DIRECTORY })
         .on('end', done)
     )
   })
 
   it('returns a stream that writes files into directories (read: false)', (done) => {
     return (
-      streamFilesToDirectories({ read: false, cwd: __dirname })
+      streamFilesToDirectories({ read: false, cwd: DIRECTORY })
         .on('end', done)
     )
   })
 
   it('returns a stream that writes files into directories (read: false, buffer: false)', (done) => {
     return (
-      streamFilesToDirectories({ buffer: false, read: false, cwd: __dirname })
+      streamFilesToDirectories({ buffer: false, read: false, cwd: DIRECTORY })
         .on('end', done)
     )
   })

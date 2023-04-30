@@ -34,9 +34,11 @@ import gulp from '#gulp'
 
 chai.use(sinonChai)
 
-const PATH = url.fileURLToPath(new URL('.', import.meta.url))
 const WAIT = 375
 const TIMEOUT = 1500
+const DIRECTORY = url.fileURLToPath(new URL('.', import.meta.url))
+const FILE_PATH = toFilePath(DIRECTORY, './tmp')
+const WATCHERS = new Set()
 
 async function createFile (filePath) {
   await writeFile(filePath, crypto.randomBytes(16))
@@ -57,10 +59,6 @@ function waitFor (delay = 0) {
     })
   )
 }
-
-const FILE_PATH = toFilePath(PATH, './out-fixtures')
-
-const WATCHERS = new Set()
 
 describe('gulp.watch()', () => {
   before(async () => {
