@@ -1,6 +1,6 @@
 import Undertaker from 'undertaker'
 import vinylFs from 'vinyl-fs'
-import watch from 'glob-watcher'
+import watch from '@sequencemedia/glob-watcher'
 
 class Gulp extends Undertaker {
   constructor () {

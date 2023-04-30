@@ -140,7 +140,7 @@ describe('gulp.src()', () => {
       let contents = ''
 
       file.contents
-        .on('data', function (data) {
+        .on('data', (data) => {
           contents += data
         })
         .on('end', () => {

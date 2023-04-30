@@ -1,5 +1,5 @@
 {
-  "name": "gulp",
+  "name": "@sequencemedia/gulp",
   "version": "1.0.0",
   "description": "The streaming build system.",
   "keywords": [
@@ -34,11 +34,11 @@
     "test": "mocha test"
   },
   "bin": {
-    "gulp": "./bin/gulp.cjs"
+    "gulp": "./bin/gulp.mjs"
   },
   "dependencies": {
-    "glob-watcher": "github:sequencemedia/glob-watcher",
-    "gulp-cli": "^2.3.0",
+    "@sequencemedia/glob-watcher": "github:sequencemedia/glob-watcher",
+    "@sequencemedia/gulp-cli": "github:sequencemedia/gulp-cli",
     "undertaker": "^1.3.0",
     "vinyl-fs": "^3.0.3"
   },

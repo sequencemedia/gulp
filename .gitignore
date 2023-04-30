@@ -2,9 +2,6 @@
 
 node_modules
 
-coverage
-.nyc_output
-
 # User-defined NPM configuration
 .npmrc
 
@@ -13,3 +10,5 @@ coverage
 
 # Deps
 .depsrc
+
+.gulp.*
