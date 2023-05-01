@@ -31,7 +31,8 @@
   "scripts": {
     "lint": "eslint . --ext .cjs --ext .mjs",
     "lint:fix": "npm run lint -- --fix",
-    "test": "mocha -b --recursive test/gulp"
+    "test": "mocha -b --recursive test/gulp",
+    "prepare": "husky install"
   },
   "bin": {
     "gulp": "./bin/gulp.mjs"
