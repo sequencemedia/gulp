@@ -60,7 +60,7 @@ function waitFor (delay = 0) {
   )
 }
 
-describe('gulp.watch()', () => {
+describe('`gulp.watch()`', () => {
   before(async () => {
     await mkdirp(FILE_PATH)
   })

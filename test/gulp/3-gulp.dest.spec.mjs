@@ -32,7 +32,7 @@ import gulp from '#gulp'
 const DIRECTORY = url.fileURLToPath(new URL('.', import.meta.url))
 const FILE_PATH = path.resolve('./test/fixtures/tmp')
 
-function streamFilesToDirectories (options) {
+function commonStream (options) {
   const readStream = gulp.src(path.resolve('./test/fixtures/text'), options)
   const writeStream = gulp.dest(FILE_PATH)
 
@@ -53,7 +53,7 @@ function streamFilesToDirectories (options) {
   )
 }
 
-describe('gulp.dest()', () => {
+describe('`gulp.dest()`', () => {
   beforeEach(async () => {
     await mkdirp(FILE_PATH)
   })
@@ -140,28 +140,28 @@ describe('gulp.dest()', () => {
 
   it('returns a stream that writes files into directories', (done) => {
     return (
-      streamFilesToDirectories({ cwd: DIRECTORY })
+      commonStream({ cwd: DIRECTORY })
         .on('end', done)
     )
   })
 
   it('returns a stream that writes files into directories (buffer: false)', (done) => {
     return (
-      streamFilesToDirectories({ buffer: false, cwd: DIRECTORY })
+      commonStream({ buffer: false, cwd: DIRECTORY })
         .on('end', done)
     )
   })
 
   it('returns a stream that writes files into directories (read: false)', (done) => {
     return (
-      streamFilesToDirectories({ read: false, cwd: DIRECTORY })
+      commonStream({ read: false, cwd: DIRECTORY })
         .on('end', done)
     )
   })
 
   it('returns a stream that writes files into directories (read: false, buffer: false)', (done) => {
     return (
-      streamFilesToDirectories({ buffer: false, read: false, cwd: DIRECTORY })
+      commonStream({ buffer: false, read: false, cwd: DIRECTORY })
         .on('end', done)
     )
   })
