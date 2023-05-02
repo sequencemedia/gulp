@@ -44,9 +44,9 @@
     "vinyl-fs": "^3.0.3"
   },
   "devDependencies": {
-    "@babel/eslint-parser": "^7.21.3",
+    "@babel/eslint-parser": "^7.21.8",
     "@babel/preset-env": "^7.21.5",
-    "@sequencemedia/hooks": "^1.0.403",
+    "@sequencemedia/hooks": "^1.0.404",
     "chai": "^4.3.7",
     "eslint": "^8.39.0",
     "eslint-config-standard": "^17.0.0",
