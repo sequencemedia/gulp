@@ -1,6 +1,6 @@
 {
   "name": "@sequencemedia/gulp",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "The streaming build system",
   "keywords": [
     "build",
@@ -46,9 +46,9 @@
   "devDependencies": {
     "@babel/eslint-parser": "^7.21.8",
     "@babel/preset-env": "^7.21.5",
-    "@sequencemedia/hooks": "^1.0.406",
+    "@sequencemedia/hooks": "^1.0.408",
     "chai": "^4.3.7",
-    "eslint": "^8.39.0",
+    "eslint": "^8.40.0",
     "eslint-config-standard": "^17.0.0",
     "eslint-plugin-import": "^2.27.5",
     "eslint-plugin-node": "^11.1.0",
