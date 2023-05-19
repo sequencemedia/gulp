@@ -46,7 +46,7 @@
   "devDependencies": {
     "@babel/eslint-parser": "^7.21.8",
     "@babel/preset-env": "^7.21.5",
-    "@sequencemedia/hooks": "^1.0.418",
+    "@sequencemedia/hooks": "^1.0.419",
     "chai": "^4.3.7",
     "eslint": "^8.40.0",
     "eslint-config-standard": "^17.0.0",
@@ -56,8 +56,8 @@
     "husky": "^8.0.3",
     "mkdirp": "^3.0.1",
     "mocha": "^10.2.0",
-    "rimraf": "^5.0.0",
-    "sinon": "^15.0.4",
+    "rimraf": "^5.0.1",
+    "sinon": "^15.1.0",
     "sinon-chai": "^3.7.0"
   },
   "files": [
