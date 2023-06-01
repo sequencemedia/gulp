@@ -233,22 +233,44 @@ describe('`gulp.watch()`', () => {
       .to.have.been.called
   }).timeout(TIMEOUT)
 
-  it('always returns a watch: no file path', () => {
-    const watcher = gulp.watch('')
+  describe('returning a watch when the path is a path', () => {
+    it('returns a watch when the path is a path', () => {
+      const watcher = gulp.watch(FILE_PATH)
 
-    watcher.close()
+      watcher.close()
 
-    return expect(watcher)
-      .to.be.instanceOf(EventEmitter)
+      return expect(watcher)
+        .to.be.instanceOf(EventEmitter)
+    })
+
+    it('returns a watch when the path is a dot', () => {
+      const watcher = gulp.watch('.')
+
+      watcher.close()
+
+      return expect(watcher)
+        .to.be.instanceOf(EventEmitter)
+    })
+
+    it('returns a watch when the path is a double dot dot', () => {
+      const watcher = gulp.watch('..')
+
+      watcher.close()
+
+      return expect(watcher)
+        .to.be.instanceOf(EventEmitter)
+    })
   })
 
-  it('always returns a watch: w/ file path', () => {
-    const watcher = gulp.watch(FILE_PATH)
-
-    watcher.close()
-
-    return expect(watcher)
-      .to.be.instanceOf(EventEmitter)
+  it('throws when the path is a zero-length string', () => {
+    try {
+      WATCHERS.add(
+        gulp.watch('')
+      )
+    } catch ({ message }) {
+      expect(message)
+        .to.equal('Nothing to watch')
+    }
   })
 
   it('throws when the parameter (string) is not a function', async () => {

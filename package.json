@@ -38,8 +38,8 @@
     "gulp": "./bin/gulp.mjs"
   },
   "dependencies": {
-    "@sequencemedia/glob-watcher": "1.0.0",
-    "@sequencemedia/gulp-cli": "1.0.0",
+    "@sequencemedia/glob-watcher": "1.0.45",
+    "@sequencemedia/gulp-cli": "1.0.48",
     "undertaker": "^1.3.0",
     "vinyl-fs": "^3.0.3"
   },
