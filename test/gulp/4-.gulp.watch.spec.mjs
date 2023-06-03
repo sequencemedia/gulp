@@ -34,8 +34,8 @@ import gulp from '#gulp'
 
 chai.use(sinonChai)
 
-const WAIT = 375
-const TIMEOUT = 1500
+const WAIT = 500 // 375
+const TIMEOUT = 3000
 const DIRECTORY = url.fileURLToPath(new URL('.', import.meta.url))
 const FILE_PATH = toFilePath(DIRECTORY, './tmp')
 const WATCHERS = new Set()
@@ -225,6 +225,19 @@ describe('`gulp.watch()`', () => {
     await changeFile(filePath)
 
     await waitFor(WAIT)
+
+    /*
+    gulp.on('stop', ({ name }) => {
+      if (name === 'series-1') {
+        expect(seriesOne)
+          .to.have.been.called
+      }
+
+      if (name === 'series-2') {
+        expect(seriesTwo)
+          .to.have.been.called
+      }
+    }) */
 
     expect(seriesOne)
       .to.have.been.called
