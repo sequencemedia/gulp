@@ -2,6 +2,13 @@ import Undertaker from 'undertaker'
 import vinylFs from 'vinyl-fs'
 import watch from '@sequencemedia/glob-watcher'
 
+function getOpts (opts = {}) {
+  return {
+    allowEmpty: true,
+    ...opts
+  }
+}
+
 class Gulp extends Undertaker {
   constructor () {
     super()
@@ -18,9 +25,18 @@ class Gulp extends Undertaker {
     this.symlink = this.symlink.bind(this)
   }
 
-  src = vinylFs.src
-  dest = vinylFs.dest
-  symlink = vinylFs.symlink
+  src (glob, opts = {}) {
+    return vinylFs.src(glob, getOpts(opts))
+  }
+
+  dest (dest, opts = {}) {
+    return vinylFs.dest(dest, getOpts(opts))
+  }
+
+  symlink (dest, opts = {}, ...rest) {
+    return vinylFs.symlink(dest, getOpts(opts), ...rest)
+  }
+
   watch (glob, opts, task) {
     if (
       typeof opts === 'string' ||
@@ -45,7 +61,7 @@ class Gulp extends Undertaker {
       func = this.parallel(task)
     }
 
-    return watch(glob, opts, func)
+    return watch(glob, getOpts(opts), func)
   }
 
   static Gulp = Gulp

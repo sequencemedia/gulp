@@ -1,8 +1,8 @@
 import * as url from 'node:url'
 
 import {
-  Stream
-} from 'node:stream'
+  EventEmitter
+} from 'node:events'
 
 import {
   Stats
@@ -66,7 +66,7 @@ describe('`gulp.dest()`', () => {
     const stream = gulp.dest(path.resolve('./test/fixtures'))
 
     return expect(stream)
-      .to.be.an.instanceOf(Stream)
+      .to.be.an.instanceOf(EventEmitter)
   })
 
   it('returns a stream to writes files', (done) => {
@@ -124,7 +124,7 @@ describe('`gulp.dest()`', () => {
     writeStream
       .on('data', (file) => {
         expect(file.contents)
-          .to.be.an.instanceOf(Stream)
+          .to.be.an.instanceOf(EventEmitter)
 
         expect(file.path)
           .to.equal(path.resolve('./test/fixtures/tmp/text/stream.txt'))

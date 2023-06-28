@@ -1,6 +1,6 @@
 import {
-  Stream
-} from 'node:stream'
+  EventEmitter
+} from 'node:events'
 
 import path from 'node:path'
 
@@ -19,7 +19,7 @@ describe('`gulp.src()`', () => {
     const stream = gulp.src(path.resolve('./test/fixtures/*.coffee'), { cwd: '.' })
 
     return expect(stream)
-      .to.be.an.instanceOf(Stream)
+      .to.be.an.instanceOf(EventEmitter)
   })
 
   it('returns a stream from a flat glob', (done) => {
@@ -140,7 +140,7 @@ describe('`gulp.src()`', () => {
           .to.equal(path.resolve('./test/fixtures/fixture.coffee'))
 
         expect(file.contents)
-          .to.be.an.instanceOf(Stream)
+          .to.be.an.instanceOf(EventEmitter)
 
         let contents = ''
 
