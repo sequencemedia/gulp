@@ -38,8 +38,8 @@
     "gulp": "./bin/gulp.mjs"
   },
   "dependencies": {
-    "@sequencemedia/glob-watcher": "1.0.58",
-    "@sequencemedia/gulp-cli": "1.1.23",
+    "@sequencemedia/glob-watcher": "1.0.59",
+    "@sequencemedia/gulp-cli": "1.1.24",
     "undertaker": "^1.3.0",
     "vinyl-fs": "^4.0.0"
   },
@@ -48,7 +48,7 @@
     "@babel/preset-env": "^7.22.5",
     "@sequencemedia/hooks": "^1.0.437",
     "chai": "^4.3.7",
-    "eslint": "^8.43.0",
+    "eslint": "^8.44.0",
     "eslint-config-standard": "^17.1.0",
     "husky": "^8.0.3",
     "mkdirp": "^3.0.1",
