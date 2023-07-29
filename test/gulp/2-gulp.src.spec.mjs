@@ -4,7 +4,8 @@ import {
 
 import path from 'node:path'
 
-import chai, {
+import {
+  use,
   expect
 } from 'chai'
 import sinon from 'sinon'
@@ -12,7 +13,7 @@ import sinonChai from 'sinon-chai'
 
 import gulp from '#gulp'
 
-chai.use(sinonChai)
+use(sinonChai)
 
 describe('`gulp.src()`', () => {
   it('returns a stream', () => {

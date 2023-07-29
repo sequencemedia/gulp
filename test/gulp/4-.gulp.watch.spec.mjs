@@ -16,7 +16,8 @@ import {
   join
 } from 'node:path'
 
-import chai, {
+import {
+  use,
   expect
 } from 'chai'
 import sinon from 'sinon'
@@ -32,7 +33,7 @@ import {
 
 import gulp from '#gulp'
 
-chai.use(sinonChai)
+use(sinonChai)
 
 const WAIT = 500 // 375
 const TIMEOUT = 3000
