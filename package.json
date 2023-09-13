@@ -42,7 +42,7 @@
     "gulp": "./bin/gulp.mjs"
   },
   "dependencies": {
-    "@sequencemedia/glob-watcher": "1.0.84",
+    "@sequencemedia/glob-watcher": "1.0.85",
     "@sequencemedia/gulp-cli": "1.1.63",
     "undertaker": "^1.3.0",
     "vinyl-fs": "3.0.3"
@@ -58,7 +58,7 @@
     "mkdirp": "^3.0.1",
     "mocha": "^10.2.0",
     "rimraf": "^5.0.1",
-    "sinon": "^15.2.0",
+    "sinon": "^16.0.0",
     "sinon-chai": "^3.7.0"
   },
   "files": [
