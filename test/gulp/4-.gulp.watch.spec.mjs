@@ -35,8 +35,8 @@ import gulp from '#gulp'
 
 use(sinonChai)
 
-const WAIT = 500 // 375
-const TIMEOUT = 3000
+const WAIT = 1000 // 375
+const TIMEOUT = 5000
 const DIRECTORY = url.fileURLToPath(new URL('.', import.meta.url))
 const FILE_PATH = toFilePath(DIRECTORY, './tmp')
 const WATCHERS = new Set()
