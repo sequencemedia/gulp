@@ -52,7 +52,7 @@
     "@babel/preset-env": "^7.23.2",
     "@sequencemedia/hooks": "^1.0.460",
     "chai": "^4.3.10",
-    "eslint": "^8.52.0",
+    "eslint": "^8.53.0",
     "eslint-config-standard": "^17.1.0",
     "husky": "^8.0.3",
     "mkdirp": "^3.0.1",
