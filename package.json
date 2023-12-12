@@ -42,14 +42,14 @@
     "gulp": "./bin/gulp.mjs"
   },
   "dependencies": {
-    "@sequencemedia/glob-watcher": "1.0.116",
+    "@sequencemedia/glob-watcher": "1.0.117",
     "@sequencemedia/gulp-cli": "1.1.112",
     "undertaker": "^1.3.0",
     "vinyl-fs": "3.0.3"
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.23.3",
-    "@babel/preset-env": "^7.23.5",
+    "@babel/preset-env": "^7.23.6",
     "@sequencemedia/hooks": "^1.0.467",
     "chai": "^4.3.10",
     "eslint": "^8.55.0",
