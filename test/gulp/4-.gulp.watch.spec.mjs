@@ -21,7 +21,7 @@ import {
   expect
 } from 'chai'
 import sinon from 'sinon'
-import sinonChai from 'sinon-chai'
+import sinonChai from '@sequencemedia/sinon-chai'
 
 import {
   rimraf
