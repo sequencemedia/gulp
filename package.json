@@ -42,15 +42,15 @@
     "gulp": "./bin/gulp.mjs"
   },
   "dependencies": {
-    "@sequencemedia/glob-watcher": "1.0.125",
-    "@sequencemedia/gulp-cli": "1.1.122",
+    "@sequencemedia/glob-watcher": "1.0.127",
+    "@sequencemedia/gulp-cli": "1.1.123",
     "undertaker": "^1.3.0",
     "vinyl-fs": "3.0.3"
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.23.3",
-    "@babel/preset-env": "^7.23.7",
-    "@sequencemedia/hooks": "^1.0.471",
+    "@babel/preset-env": "^7.23.8",
+    "@sequencemedia/hooks": "^1.0.472",
     "@sequencemedia/sinon-chai": "^0.0.6",
     "chai": "^5.0.0",
     "eslint": "^8.56.0",
