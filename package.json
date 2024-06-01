@@ -28,7 +28,7 @@
   ],
   "license": "MIT",
   "engines": {
-    "node": "<=21.7.3"
+    "node": ">=18.12.0 <=21.7.3 || >=22.2.0"
   },
   "repository": "sequencemedia/gulp",
   "homepage": "https://gulpjs.com",
@@ -42,15 +42,15 @@
     "gulp": "./bin/gulp.mjs"
   },
   "dependencies": {
-    "@sequencemedia/glob-watcher": "1.0.165",
-    "@sequencemedia/gulp-cli": "1.1.162",
+    "@sequencemedia/glob-watcher": "1.0.167",
+    "@sequencemedia/gulp-cli": "1.1.163",
     "undertaker": "^2.0.0",
     "vinyl-fs": "3.0.3"
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.24.6",
     "@babel/preset-env": "^7.24.6",
-    "@sequencemedia/hooks": "^1.0.492",
+    "@sequencemedia/hooks": "^1.0.493",
     "@sequencemedia/sinon-chai": "^0.0.6",
     "chai": "^5.1.1",
     "eslint": "8.57.0",
