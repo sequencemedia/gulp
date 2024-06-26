@@ -42,7 +42,7 @@
     "gulp": "./bin/gulp.mjs"
   },
   "dependencies": {
-    "@sequencemedia/glob-watcher": "1.0.171",
+    "@sequencemedia/glob-watcher": "1.0.172",
     "@sequencemedia/gulp-cli": "1.1.164",
     "undertaker": "^2.0.0",
     "vinyl-fs": "3.0.3"
@@ -57,7 +57,7 @@
     "eslint-config-standard": "^17.1.0",
     "husky": "^9.0.11",
     "mkdirp": "^3.0.1",
-    "mocha": "^10.5.0",
+    "mocha": "^10.5.1",
     "rimraf": "^5.0.7",
     "sinon": "^18.0.0"
   },
