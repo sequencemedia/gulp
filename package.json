@@ -33,7 +33,7 @@
   "repository": "sequencemedia/gulp",
   "homepage": "https://gulpjs.com",
   "scripts": {
-    "lint": "eslint . --ext .mjs,.cjs",
+    "lint": "eslint .",
     "lint:fix": "npm run lint -- --fix",
     "prepare": "husky",
     "test": "mocha -b --recursive test/gulp"
@@ -42,19 +42,20 @@
     "gulp": "./bin/gulp.mjs"
   },
   "dependencies": {
-    "@sequencemedia/glob-watcher": "1.0.173",
-    "@sequencemedia/gulp-cli": "1.1.166",
+    "@sequencemedia/glob-watcher": "1.0.176",
+    "@sequencemedia/gulp-cli": "1.1.168",
     "undertaker": "^2.0.0",
     "vinyl-fs": "3.0.3"
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.24.7",
     "@babel/preset-env": "^7.24.7",
-    "@sequencemedia/hooks": "^1.0.496",
+    "@sequencemedia/eslint-config-standard": "^0.0.5",
+    "@sequencemedia/hooks": "^1.0.497",
     "@sequencemedia/sinon-chai": "^0.0.6",
     "chai": "^5.1.1",
-    "eslint": "8.57.0",
-    "eslint-config-standard": "^17.1.0",
+    "eslint": "^9.6.0",
+    "globals": "^15.8.0",
     "husky": "^9.0.11",
     "mkdirp": "^3.0.1",
     "mocha": "^10.6.0",
