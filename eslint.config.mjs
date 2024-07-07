@@ -17,8 +17,6 @@ export default (
         sourceType: 'module'
       },
       globals: {
-        fetch: 'readonly',
-        ...globals.browser,
         ...globals.node
       }
     }
@@ -35,9 +33,6 @@ export default (
             sourceType: 'module'
           },
           globals: {
-            fetch: 'readonly',
-            ...globals.browser,
-            ...globals.node,
             ...globals.mocha
           }
         }
