@@ -50,9 +50,9 @@
   "devDependencies": {
     "@babel/eslint-parser": "^7.25.1",
     "@babel/preset-env": "^7.25.4",
-    "@sequencemedia/eslint-config-standard": "^0.0.60",
-    "@sequencemedia/hooks": "^1.0.550",
-    "@sequencemedia/sinon-chai": "^0.0.54",
+    "@sequencemedia/eslint-config-standard": "^0.0.61",
+    "@sequencemedia/hooks": "^1.0.551",
+    "@sequencemedia/sinon-chai": "^0.0.55",
     "chai": "^5.1.1",
     "eslint": "^9.10.0",
     "globals": "^15.9.0",
@@ -60,7 +60,7 @@
     "mkdirp": "^3.0.1",
     "mocha": "^10.7.3",
     "rimraf": "^6.0.1",
-    "sinon": "^18.0.0"
+    "sinon": "^18.0.1"
   },
   "files": [
     "index.mjs",
