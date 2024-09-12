@@ -42,21 +42,21 @@
     "gulp": "./bin/gulp.mjs"
   },
   "dependencies": {
-    "@sequencemedia/glob-watcher": "1.0.221",
-    "@sequencemedia/gulp-cli": "1.1.221",
+    "@sequencemedia/glob-watcher": "1.0.223",
+    "@sequencemedia/gulp-cli": "1.1.223",
     "undertaker": "^2.0.0",
     "vinyl-fs": "3.0.3"
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.25.1",
     "@babel/preset-env": "^7.25.4",
-    "@sequencemedia/eslint-config-standard": "^0.0.61",
-    "@sequencemedia/hooks": "^1.0.551",
-    "@sequencemedia/sinon-chai": "^0.0.55",
+    "@sequencemedia/eslint-config-standard": "^0.0.62",
+    "@sequencemedia/hooks": "^1.0.552",
+    "@sequencemedia/sinon-chai": "^0.0.56",
     "chai": "^5.1.1",
     "eslint": "^9.10.0",
     "globals": "^15.9.0",
-    "husky": "^9.1.5",
+    "husky": "^9.1.6",
     "mkdirp": "^3.0.1",
     "mocha": "^10.7.3",
     "rimraf": "^6.0.1",
