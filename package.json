@@ -43,16 +43,16 @@
   },
   "dependencies": {
     "@sequencemedia/glob-watcher": "1.0.223",
-    "@sequencemedia/gulp-cli": "1.1.229",
+    "@sequencemedia/gulp-cli": "1.1.230",
     "undertaker": "^2.0.0",
     "vinyl-fs": "3.0.3"
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.25.1",
     "@babel/preset-env": "^7.25.4",
-    "@sequencemedia/eslint-config-standard": "^0.0.68",
-    "@sequencemedia/hooks": "^1.0.558",
-    "@sequencemedia/sinon-chai": "^0.0.62",
+    "@sequencemedia/eslint-config-standard": "^0.0.69",
+    "@sequencemedia/hooks": "^1.0.559",
+    "@sequencemedia/sinon-chai": "^0.0.63",
     "chai": "^5.1.1",
     "eslint": "^9.10.0",
     "globals": "^15.9.0",
