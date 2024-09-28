@@ -13,4 +13,7 @@ test/fixtures/tmp
 # Deps
 .depsrc
 
+# Hooks
+.husky/hooks
+
 .gulp.*
