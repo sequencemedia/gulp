@@ -15,6 +15,10 @@ import gulp from '#gulp'
 
 use(sinonChai)
 
+function toJson (s) {
+  return JSON.stringify(JSON.parse(s), null, 2)
+}
+
 describe('`gulp.src()`', () => {
   it('returns a stream', () => {
     const stream = gulp.src(path.resolve('./test/fixtures/*.coffee'), { cwd: '.' })
@@ -63,14 +67,14 @@ describe('`gulp.src()`', () => {
 
           const [[fileOne], [fileTwo]] = spy.args
 
-          expect(fileOne.contents.toString().trim())
-            .to.equal('{"one":1}')
+          expect(toJson(fileOne.contents.toString().trim()))
+            .to.equal(toJson('{"one":1}'))
 
           expect(fileOne.path)
             .to.equal(path.join(path.resolve('./test'), FILE_PATH_ONE))
 
-          expect(fileTwo.contents.toString().trim())
-            .to.equal('{"two":2}')
+          expect(toJson(fileTwo.contents.toString().trim()))
+            .to.equal(toJson('{"two":2}'))
 
           expect(fileTwo.path)
             .to.equal(path.join(path.resolve('./test'), FILE_PATH_TWO))
@@ -93,7 +97,7 @@ describe('`gulp.src()`', () => {
 
     const spy = sinon.stub().callsFake((file) => {
       expect(file.contents.toString().trim())
-        .to.equal('{"one":1}')
+        .to.equal(toJson('{"one":1}'))
 
       expect(file.path)
         .to.equal(EXPECTED_PATH)
@@ -194,14 +198,14 @@ describe('`gulp.src()`', () => {
 
           const [[fileOne], [fileTwo]] = spy.args
 
-          expect(fileOne.contents.toString().trim())
-            .to.equal('{"one":1}')
+          expect(toJson(fileOne.contents.toString().trim()))
+            .to.equal(toJson('{"one":1}'))
 
           expect(fileOne.path)
             .to.equal(path.resolve('./test/fixtures/json/one.json'))
 
-          expect(fileTwo.contents.toString().trim())
-            .to.equal('{"two":2}')
+          expect(toJson(fileTwo.contents.toString().trim()))
+            .to.equal(toJson('{"two":2}'))
 
           expect(fileTwo.path)
             .to.equal(path.resolve('./test/fixtures/json/two.json'))
