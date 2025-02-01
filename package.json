@@ -42,7 +42,7 @@
     "gulp": "./bin/gulp.mjs"
   },
   "dependencies": {
-    "@sequencemedia/glob-watcher": "1.0.274",
+    "@sequencemedia/glob-watcher": "1.0.275",
     "@sequencemedia/gulp-cli": "1.1.283",
     "undertaker": "^2.0.0",
     "vinyl-fs": "3.0.3"
