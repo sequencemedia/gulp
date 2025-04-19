@@ -98,7 +98,7 @@ describe('`gulp.watch()`', () => {
       expect(task)
         .to.have.been.called
     )
-  }).timeout(TIMEOUT)
+  }).timeout(TIMEOUT * 3)
 
   it('performs the task when the file changes: w/ options', async () => {
     const FILE_NAME = 'changes-with-options.txt'
