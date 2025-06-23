@@ -43,7 +43,7 @@
   },
   "dependencies": {
     "@sequencemedia/glob-watcher": "1.0.325",
-    "@sequencemedia/gulp-cli": "1.1.346",
+    "@sequencemedia/gulp-cli": "1.1.347",
     "undertaker": "^2.0.0",
     "vinyl-fs": "3.0.3"
   },
