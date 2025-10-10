@@ -42,8 +42,8 @@
     "gulp": "./bin/gulp.mjs"
   },
   "dependencies": {
-    "@sequencemedia/glob-watcher": "1.0.343",
-    "@sequencemedia/gulp-cli": "1.1.376",
+    "@sequencemedia/glob-watcher": "1.0.344",
+    "@sequencemedia/gulp-cli": "1.1.377",
     "undertaker": "^2.0.0",
     "vinyl-fs": "3.0.3"
   },
