@@ -42,7 +42,7 @@
     "gulp": "./bin/gulp.mjs"
   },
   "dependencies": {
-    "@sequencemedia/glob-watcher": "1.0.348",
+    "@sequencemedia/glob-watcher": "1.0.349",
     "@sequencemedia/gulp-cli": "1.1.382",
     "undertaker": "^2.0.0",
     "vinyl-fs": "3.0.3"
@@ -50,10 +50,10 @@
   "devDependencies": {
     "@babel/eslint-parser": "^7.28.4",
     "@babel/preset-env": "^7.28.3",
-    "@sequencemedia/eslint-config-standard": "^0.2.92",
+    "@sequencemedia/eslint-config-standard": "^0.2.93",
     "@sequencemedia/sinon-chai": "^0.0.197",
     "chai": "^6.2.0",
-    "eslint": "^9.37.0",
+    "eslint": "^9.38.0",
     "globals": "^16.4.0",
     "husky": "^9.1.7",
     "mkdirp": "^3.0.1",
