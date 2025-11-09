@@ -1,6 +1,6 @@
 {
   "name": "@sequencemedia/gulp",
-  "version": "1.1.401",
+  "version": "1.1.402",
   "description": "The streaming build system",
   "keywords": [
     "build",
