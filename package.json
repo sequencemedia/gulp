@@ -54,7 +54,7 @@
     "@sequencemedia/sinon-chai": "^0.0.213",
     "chai": "^6.2.2",
     "eslint": "^9.39.2",
-    "globals": "^16.5.0",
+    "globals": "^17.0.0",
     "husky": "^9.1.7",
     "mkdirp": "^3.0.1",
     "mocha": "^11.7.5",
