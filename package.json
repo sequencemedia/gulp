@@ -50,7 +50,7 @@
   "devDependencies": {
     "@babel/eslint-parser": "7.29.7",
     "@babel/preset-env": "7.29.7",
-    "@sequencemedia/eslint-config-standard": "^0.2.129",
+    "@sequencemedia/eslint-config-standard": "^0.2.130",
     "@sequencemedia/sinon-chai": "^0.0.238",
     "chai": "^6.3.0",
     "eslint": "9.38.0",
